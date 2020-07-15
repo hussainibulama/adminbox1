@@ -104,9 +104,9 @@ class Router {
   UpdatePersonal(app, db) {
     app.post("/updatetracking", (req, res) => {
       db.query(
-        "UPDATE pickup SET status='" +
+        "UPDATE requestpickup SET status='" +
           req.body.status +
-          "' WHERE trackingid = ?",
+          "' WHERE trackingnumber = ?",
         req.body.trackingid,
         (err, data, fields) => {
           if (err) {
@@ -137,9 +137,9 @@ class Router {
     app.post("/assign", (req, res) => {
       let trackingid = req.body.trackingid;
       db.query(
-        "UPDATE pickup SET bikerinfo='" +
+        "UPDATE requestpickup SET bikerinfo='" +
           req.body.biker +
-          "' WHERE trackingid= ?",
+          "' WHERE trackingnumber= ?",
         trackingid,
         (err, data, fields) => {
           if (err) {
@@ -216,7 +216,7 @@ class Router {
     app.post("/fetchpickup", (req, res) => {
       let id = req.body.sessionID;
       db.query(
-        "SELECT * FROM pickup WHERE status!='success' ",
+        "SELECT * FROM requestpickup WHERE status!='success' ",
         (err, data, fields) => {
           if (data) {
             res.end(JSON.stringify(data));
@@ -233,7 +233,7 @@ class Router {
   fetchhistories(app, db) {
     app.post("/fetchpickuphistory", (req, res) => {
       let id = req.body.sessionID;
-      db.query("SELECT * FROM pickup ", (err, data, fields) => {
+      db.query("SELECT * FROM requestpickup ", (err, data, fields) => {
         if (data) {
           res.end(JSON.stringify(data));
         } else {
